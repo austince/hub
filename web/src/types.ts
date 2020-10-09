@@ -63,10 +63,15 @@ export interface Package {
   defaultChannel?: string | null;
   channels?: Channel[] | null;
   provider?: string | null;
-  containerImage?: string | null;
+  containersImages?: ContainerImage[] | null;
   capabilities?: string | null;
   crds?: { [key: string]: any } | null;
   crdsExamples?: CustomResourcesDefinitionExample[] | null;
+}
+
+export interface ContainerImage {
+  image: string;
+  name?: string;
 }
 
 export interface Version {
@@ -427,4 +432,32 @@ export interface AuthorizationPolicy {
 export interface SearchTipItem {
   content: JSX.Element | string;
   example: string;
+}
+
+export interface VulnerabilityReport {
+  summary: {
+    [key in VulnerabilitySeverity]: number;
+  };
+  full: {
+    [key: string]: VulnerabilityTargetReport[];
+  };
+}
+
+export interface VulnerabilityTargetReport {
+  Target: string;
+  Type: string;
+  Vulnerabilities: Vulnerability[] | null;
+}
+
+export interface Vulnerability {
+  [key: string]: any;
+  Severity: VulnerabilitySeverity;
+}
+
+export enum VulnerabilitySeverity {
+  Critical = 'critical',
+  High = 'high',
+  Medium = 'medium',
+  Low = 'low',
+  UnKnown = 'unknown',
 }
