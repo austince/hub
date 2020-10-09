@@ -88,7 +88,7 @@ insert into snapshot (
     deprecated,
     license,
     signed,
-    container_image,
+    containers_images,
     provider,
     created_at
 ) values (
@@ -110,7 +110,7 @@ insert into snapshot (
     true,
     'Apache-2.0',
     true,
-    'quay.io/org/img:1.0.0',
+    '[{"image": "quay.io/org/img:1.0.0"}]',
     'Org Inc',
     '2020-06-16 11:20:34+02'
 );
@@ -244,7 +244,11 @@ select is(
         "deprecated": true,
         "license": "Apache-2.0",
         "signed": true,
-        "container_image": "quay.io/org/img:1.0.0",
+        "containers_images": [
+            {
+                "image": "quay.io/org/img:1.0.0"
+            }
+        ],
         "provider": "Org Inc",
         "created_at": 1592299234,
         "maintainers": [
@@ -336,7 +340,11 @@ select is(
         "deprecated": true,
         "license": "Apache-2.0",
         "signed": true,
-        "container_image": "quay.io/org/img:1.0.0",
+        "containers_images": [
+            {
+                "image": "quay.io/org/img:1.0.0"
+            }
+        ],
         "provider": "Org Inc",
         "created_at": 1592299234,
         "maintainers": [
@@ -425,7 +433,7 @@ select is(
         "deprecated": null,
         "license": null,
         "signed": null,
-        "container_image": null,
+        "containers_images": null,
         "provider": null,
         "created_at": 1592299233,
         "maintainers": [
@@ -483,7 +491,7 @@ select is(
         "deprecated": null,
         "license": null,
         "signed": null,
-        "container_image": null,
+        "containers_images": null,
         "provider": null,
         "created_at": 1592299234,
         "version": "1.0.0",

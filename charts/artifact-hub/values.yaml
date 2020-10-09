@@ -76,6 +76,16 @@ dbMigrator:
       repository: artifacthub/db-migrator
   loadSampleData: true
 
+scanner:
+  cronjob:
+    image:
+      repository: artifacthub/scanner
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500Mi
+  concurrency: 10
+
 tracker:
   cronjob:
     image:

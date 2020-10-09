@@ -30,6 +30,12 @@ type Link struct {
 	URL  string `json:"url" yaml:"url"`
 }
 
+// ContainerImage represents a container image associated with a package.
+type ContainerImage struct {
+	Name  string `json:"name" yaml:"name"`
+	Image string `json:"image" yaml:"image"`
+}
+
 // Maintainer represents a package's maintainer.
 type Maintainer struct {
 	MaintainerID string `json:"maintainer_id"`
@@ -66,7 +72,7 @@ type Package struct {
 	License           string                 `json:"license"`
 	Signed            bool                   `json:"signed"`
 	ContentURL        string                 `json:"content_url"`
-	ContainerImage    string                 `json:"container_image"`
+	ContainersImages  []*ContainerImage      `json:"containers_images"`
 	Provider          string                 `json:"provider"`
 	Maintainers       []*Maintainer          `json:"maintainers"`
 	Repository        *Repository            `json:"repository"`
@@ -78,6 +84,7 @@ type Package struct {
 type PackageManager interface {
 	Get(ctx context.Context, input *GetPackageInput) (*Package, error)
 	GetJSON(ctx context.Context, input *GetPackageInput) ([]byte, error)
+	GetSnapshotsToScan(ctx context.Context) ([]*SnapshotToScan, error)
 	GetRandomJSON(ctx context.Context) ([]byte, error)
 	GetStarredByUserJSON(ctx context.Context) ([]byte, error)
 	GetStarsJSON(ctx context.Context, packageID string) ([]byte, error)
@@ -86,6 +93,7 @@ type PackageManager interface {
 	SearchJSON(ctx context.Context, input *SearchPackageInput) ([]byte, error)
 	SearchMonocularJSON(ctx context.Context, baseURL, tsQueryWeb string) ([]byte, error)
 	ToggleStar(ctx context.Context, packageID string) error
+	UpdateSnapshotSecurityReport(ctx context.Context, r *SnapshotSecurityReport) error
 	Unregister(ctx context.Context, pkg *Package) error
 }
 
@@ -93,27 +101,53 @@ type PackageManager interface {
 // provided by repositories publishers, to provide the required information
 // about the content they'd like to be indexed.
 type PackageMetadata struct {
-	Version        string        `yaml:"version"`
-	Name           string        `yaml:"name"`
-	DisplayName    string        `yaml:"displayName"`
-	CreatedAt      string        `yaml:"createdAt"`
-	Description    string        `yaml:"description"`
-	LogoPath       string        `yaml:"logoPath"`
-	Digest         string        `yaml:"digest"`
-	License        string        `yaml:"license"`
-	HomeURL        string        `yaml:"homeURL"`
-	AppVersion     string        `yaml:"appVersion"`
-	PublisherID    string        `yaml:"publisherID"`
-	ContainerImage string        `yaml:"containerImage"`
-	Operator       bool          `yaml:"operator"`
-	Deprecated     bool          `yaml:"deprecated"`
-	Keywords       []string      `yaml:"keywords"`
-	Links          []*Link       `yaml:"links"`
-	Readme         string        `yaml:"readme"`
-	Install        string        `yaml:"install"`
-	Maintainers    []*Maintainer `yaml:"maintainers"`
-	Provider       *Provider     `yaml:"provider"`
-	Ignore         []string      `yaml:"ignore"`
+	Version          string            `yaml:"version"`
+	Name             string            `yaml:"name"`
+	DisplayName      string            `yaml:"displayName"`
+	CreatedAt        string            `yaml:"createdAt"`
+	Description      string            `yaml:"description"`
+	LogoPath         string            `yaml:"logoPath"`
+	Digest           string            `yaml:"digest"`
+	License          string            `yaml:"license"`
+	HomeURL          string            `yaml:"homeURL"`
+	AppVersion       string            `yaml:"appVersion"`
+	PublisherID      string            `yaml:"publisherID"`
+	ContainersImages []*ContainerImage `yaml:"containersImages"`
+	Operator         bool              `yaml:"operator"`
+	Deprecated       bool              `yaml:"deprecated"`
+	Keywords         []string          `yaml:"keywords"`
+	Links            []*Link           `yaml:"links"`
+	Readme           string            `yaml:"readme"`
+	Install          string            `yaml:"install"`
+	Maintainers      []*Maintainer     `yaml:"maintainers"`
+	Provider         *Provider         `yaml:"provider"`
+	Ignore           []string          `yaml:"ignore"`
+}
+
+// SnapshotSecurityReport represents some information about the security
+// vulnerabilities the images used by a given package's snapshot may have.
+type SnapshotSecurityReport struct {
+	PackageID string                   `json:"package_id"`
+	Version   string                   `json:"version"`
+	Summary   *SecurityReportSummary   `json:"summary"`
+	Full      map[string][]interface{} `json:"full"`
+}
+
+// SecurityReportSummary represents a summary of the security report.
+type SecurityReportSummary struct {
+	Critical int `json:"critical"`
+	High     int `json:"high"`
+	Medium   int `json:"medium"`
+	Low      int `json:"low"`
+	Unknown  int `json:"unknown"`
+}
+
+// SnapshotToScan represents some information about a package's snapshot that
+// needs to be scanned for security vulnerabilities.
+type SnapshotToScan struct {
+	PackageID        string            `json:"package_id"`
+	Version          string            `json:"version"`
+	ContainersImages []*ContainerImage `json:"containers_images"`
 }
 
 // Provider represents a package's provider.

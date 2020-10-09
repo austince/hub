@@ -47,6 +47,14 @@ hub:
       google:
         redirectURL: https://staging.artifacthub.io/oauth/google/callback
 
+scanner:
+  cronjob:
+    resources:
+      requests:
+        cpu: 2
+        memory: 4000Mi
+  concurrency: 10
+
 tracker:
   cronjob:
     resources:

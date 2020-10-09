@@ -224,10 +224,12 @@ alias hub_db_backup="pg_dump --data-only --exclude-table-data=repository_kind --
 alias hub_db_restore="psql -U postgres hub < $HUB_DB_BACKUP"
 alias hub_server="pushd $HUB_SOURCE/cmd/hub; go run -mod=readonly *.go; popd"
 alias hub_tracker="pushd $HUB_SOURCE/cmd/tracker; go run -mod=readonly main.go; popd"
+alias hub_scanner="pushd $HUB_SOURCE/cmd/scanner; go run -mod=readonly main.go; popd"
 alias hub_backend_tests="pushd $HUB_SOURCE; go test -cover -race -mod=readonly -count=1 ./...; popd"
 alias hub_tests="hub_db_recreate_tests && hub_db_tests && hub_go_tests"
 alias hub_frontend_build="pushd $HUB_SOURCE/web; yarn build; popd"
 alias hub_frontend_dev="pushd $HUB_SOURCE/web; yarn start; popd"
 alias hub_frontend_tests="pushd $HUB_SOURCE/web; yarn test; popd"
 alias hub_frontend_lint_fix="pushd $HUB_SOURCE/web; yarn lint:fix; popd"
+alias hub_trivy_server="trivy server --listen localhost:8081"
 ```

@@ -51,7 +51,7 @@ begin
         'deprecated', s.deprecated,
         'license', s.license,
         'signed', s.signed,
-        'container_image', s.container_image,
+        'containers_images', s.containers_images,
         'provider', s.provider,
         'created_at', floor(extract(epoch from s.created_at)),
         'maintainers', (

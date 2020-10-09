@@ -26,6 +26,13 @@ func (m *ManagerMock) GetJSON(ctx context.Context, input *hub.GetPackageInput) (
 	return data, args.Error(1)
 }
 
+// GetSnapshotsToScan implements the PackageManager interface.
+func (m *ManagerMock) GetSnapshotsToScan(ctx context.Context) ([]*hub.SnapshotToScan, error) {
+	args := m.Called(ctx)
+	data, _ := args.Get(0).([]*hub.SnapshotToScan)
+	return data, args.Error(1)
+}
+
 // GetRandomJSON implements the PackageManager interface.
 func (m *ManagerMock) GetRandomJSON(ctx context.Context) ([]byte, error) {
 	args := m.Called(ctx)
@@ -77,6 +84,12 @@ func (m *ManagerMock) SearchMonocularJSON(ctx context.Context, baseURL, tsQueryW
 // ToggleStar implements the PackageManager interface.
 func (m *ManagerMock) ToggleStar(ctx context.Context, packageID string) error {
 	args := m.Called(ctx, packageID)
+	return args.Error(0)
+}
+
+// UpdateSnapshotSecurityReport implements the PackageManager interface.
+func (m *ManagerMock) UpdateSnapshotSecurityReport(ctx context.Context, r *hub.SnapshotSecurityReport) error {
+	args := m.Called(ctx, r)
 	return args.Error(0)
 }
 
