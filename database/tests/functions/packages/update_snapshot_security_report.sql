@@ -1,6 +1,6 @@
 -- Start transaction and plan tests
 begin;
-select plan(4);
+select plan(6);
 
 -- Declare some variables
 \set user1ID '00000000-0000-0000-0000-000000000001'
@@ -35,6 +35,8 @@ insert into snapshot (
 -- Run some tests
 select is(security_report, null, 'Security report should be null')
 from snapshot where package_id = :'package1ID' and version = '1.0.0';
+select is(security_report_created_at, null, 'Security report created at should be null')
+from snapshot where package_id = :'package1ID' and version = '1.0.0';
 select is(security_report_summary, null, 'Security report summary should be null')
 from snapshot where package_id = :'package1ID' and version = '1.0.0';
 select update_snapshot_security_report('{
@@ -56,6 +58,8 @@ select is(security_report, '{
             {"k": "v"}
     ]
 }', 'Security report should exist')
+from snapshot where package_id = :'package1ID' and version = '1.0.0';
+select isnt(security_report_created_at, null, 'Security report created at should exist')
 from snapshot where package_id = :'package1ID' and version = '1.0.0';
 select is(security_report_summary, '{
     "critical": 2,

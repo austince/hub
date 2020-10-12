@@ -9,4 +9,5 @@ returns setof json as $$
     )), '[]')
     from snapshot
     where security_report is null
+    or security_report_created_at < (current_timestamp - '1 day'::interval);
 $$ language sql;

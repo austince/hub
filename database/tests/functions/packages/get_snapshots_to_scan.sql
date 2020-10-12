@@ -97,6 +97,19 @@ insert into snapshot (
     '[{"image": "quay.io/org/pkg3:1.0.0"}]',
     '{"k": "v"}'
 );
+insert into snapshot (
+    package_id,
+    version,
+    containers_images,
+    security_report,
+    security_report_created_at
+) values (
+    :'package3ID',
+    '0.0.9',
+    '[{"image": "quay.io/org/pkg3:0.0.9"}]',
+    '{"k": "v"}',
+    '2010-05-29 13:55:00'
+);
 
 -- Run some tests
 select is(
@@ -126,6 +139,15 @@ select is(
             "containers_images": [
                 {
                     "image": "quay.io/org/pkg2:1.0.0"
+                }
+            ]
+        },
+        {
+            "package_id": "00000000-0000-0000-0000-000000000003",
+            "version": "0.0.9",
+            "containers_images": [
+                {
+                    "image": "quay.io/org/pkg3:0.0.9"
                 }
             ]
         }

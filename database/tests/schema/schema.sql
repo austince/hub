@@ -169,6 +169,7 @@ select columns_are('snapshot', array[
     'crds',
     'crds_examples',
     'security_report',
+    'security_report_created_at',
     'security_report_summary',
     'capabilities',
     'data',

@@ -132,6 +132,7 @@ create table if not exists snapshot (
     crds jsonb,
     crds_examples jsonb,
     security_report jsonb,
+    security_report_created_at timestamptz,
     security_report_summary jsonb,
     capabilities text,
     data jsonb,
