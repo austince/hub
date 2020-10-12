@@ -67,6 +67,7 @@ export interface Package {
   capabilities?: string | null;
   crds?: { [key: string]: any } | null;
   crdsExamples?: CustomResourcesDefinitionExample[] | null;
+  securityReportSummary: SecurityReportSummary | null;
 }
 
 export interface ContainerImage {
@@ -434,16 +435,15 @@ export interface SearchTipItem {
   example: string;
 }
 
-export interface VulnerabilityReport {
-  summary: {
-    [key in VulnerabilitySeverity]: number;
-  };
-  full: {
-    [key: string]: VulnerabilityTargetReport[];
-  };
+export type SecurityReportSummary = {
+  [key in VulnerabilitySeverity]: number;
+};
+
+export interface SecurityReport {
+  [key: string]: SecurityTargetReport[];
 }
 
-export interface VulnerabilityTargetReport {
+export interface SecurityTargetReport {
   Target: string;
   Type: string;
   Vulnerabilities: Vulnerability[] | null;

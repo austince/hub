@@ -1,3 +1,7 @@
+.progressBar {
+  min-width: 35px;
+}
+
 .btnExpand {
   line-height: 1rem;
 }

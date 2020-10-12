@@ -1,23 +1,30 @@
+import { isEmpty } from 'lodash';
 import React, { useState } from 'react';
 import { HiClipboardList } from 'react-icons/hi';
 
-import { VulnerabilityReport } from '../../../types';
+import { API } from '../../../api';
+import { SecurityReport, SecurityReportSummary } from '../../../types';
 import alertDispatcher from '../../../utils/alertDispatcher';
 import Modal from '../../common/Modal';
 import styles from './Modal.module.css';
-import VulnerabilitySummary from './Summary';
-import VulnerabilityTable from './Table';
+import SecuritySummary from './Summary';
+import SecurityTable from './Table';
 
-const VulnerabilityModal = () => {
+interface Props {
+  summary: SecurityReportSummary;
+  packageId: string;
+  version: string;
+}
+
+const SecurityModal = (props: Props) => {
   const [openStatus, setOpenStatus] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [report, setReport] = useState<VulnerabilityReport | null | undefined>();
+  const [report, setReport] = useState<SecurityReport | null | undefined>();
 
-  async function getVulnerabilityReports() {
+  async function getSecurityReports() {
     try {
       setIsLoading(true);
-      // TODO - get full reposrt from API
-      setReport(require('./vulnerabilityResults.json') as VulnerabilityReport);
+      setReport(await API.getSnapshotSecurityReport(props.packageId, props.version));
       setIsLoading(false);
       setOpenStatus(true);
     } catch {
@@ -34,7 +41,7 @@ const VulnerabilityModal = () => {
     if (report) {
       setOpenStatus(true);
     } else {
-      getVulnerabilityReports();
+      getSecurityReports();
     }
   };
 
@@ -51,7 +58,7 @@ const VulnerabilityModal = () => {
             ) : (
               <>
                 <HiClipboardList className="mr-2" />
-                <span>See full report</span>
+                <span>Full report</span>
               </>
             )}
           </small>
@@ -67,14 +74,18 @@ const VulnerabilityModal = () => {
         >
           <div className="m-3">
             <div className="h5 mt-0 text-secondary text-uppercase font-weight-bold mb-2">Summary</div>
-            <VulnerabilitySummary summary={report.summary} />
+            <SecuritySummary summary={props.summary} />
 
-            <div className="h5 mt-0 text-secondary text-uppercase font-weight-bold mb-2">Vulnerabilities</div>
-            <div className="mt-3">
-              {Object.keys(report.full).map((image: string) => {
-                return <VulnerabilityTable image={image} reports={report.full[image]} key={`image_${image}`} />;
-              })}
-            </div>
+            {!isEmpty(report) && (
+              <>
+                <div className="h5 pt-3 text-secondary text-uppercase font-weight-bold mb-2">Vulnerabilities</div>
+                <div className="mt-3">
+                  {Object.keys(report).map((image: string) => {
+                    return <SecurityTable image={image} reports={report[image]} key={`image_${image}`} />;
+                  })}
+                </div>
+              </>
+            )}
           </div>
         </Modal>
       )}
@@ -82,4 +93,4 @@ const VulnerabilityModal = () => {
   );
 };
 
-export default VulnerabilityModal;
+export default SecurityModal;

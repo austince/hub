@@ -51,7 +51,6 @@ import Readme from './Readme';
 import RelatedPackages from './RelatedPackages';
 import StarButton from './StarButton';
 import SubscriptionsButton from './SubscriptionsButton';
-import Vulnerability from './vulnerabilities';
 
 interface Props {
   isLoadingPackage: boolean;
@@ -609,16 +608,6 @@ const PackageView = (props: Props) => {
                     {!isNull(detail) && (
                       <>
                         {InstallationModal()}
-
-                        {/* TODO - summary */}
-                        <Vulnerability
-                          className={styles.info}
-                          summary={{
-                            high: 6,
-                            medium: 13,
-                            low: 26,
-                          }}
-                        />
 
                         <div className={`card shadow-sm position-relative info ${styles.info}`}>
                           <div className={`card-body ${styles.detailsBody}`}>

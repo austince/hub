@@ -11,11 +11,11 @@ interface Props {
   };
 }
 
-const VulnerabilitySummary = (props: Props) => {
+const SecuritySummary = (props: Props) => {
   const total = sumObjectValues(props.summary);
 
   return (
-    <div className="mb-5">
+    <div className="mb-4">
       <div className="h5 my-3">
         <span className="font-weight-bold">{total}</span> vulnerabilities have been detected in the{' '}
         <span className="font-weight-bold">default images</span> used by this package.
@@ -23,10 +23,11 @@ const VulnerabilitySummary = (props: Props) => {
 
       <div className="progress mb-4" style={{ height: '25px' }}>
         {SEVERITY_ORDER.map((severity: VulnerabilitySeverity) => {
-          if (!props.summary.hasOwnProperty(severity)) return null;
+          if (!props.summary!.hasOwnProperty(severity) || props.summary![severity] === 0) return null;
           return (
             <div
-              className="progress-bar text-dark px-1 font-weight-bold"
+              key={`summary_${severity}`}
+              className={`progress-bar text-dark px-1 font-weight-bold ${styles.progressBar}`}
               role="progressbar"
               style={{
                 width: `${(props.summary[severity] * 100) / total}%`,
@@ -44,4 +45,4 @@ const VulnerabilitySummary = (props: Props) => {
   );
 };
 
-export default VulnerabilitySummary;
+export default SecuritySummary;

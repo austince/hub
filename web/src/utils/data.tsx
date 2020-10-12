@@ -318,8 +318,8 @@ export const SEVERITY_ORDER = [
 ];
 
 export const SEVERITY_COLORS = {
-  [VulnerabilitySeverity.Critical]: '#ff5152',
-  [VulnerabilitySeverity.High]: '#FF872C',
+  [VulnerabilitySeverity.Critical]: '#B20303',
+  [VulnerabilitySeverity.High]: '#ff5152',
   [VulnerabilitySeverity.Medium]: '#ffb760',
   [VulnerabilitySeverity.Low]: '#ffe258',
   [VulnerabilitySeverity.UnKnown]: '#b2b2b2',

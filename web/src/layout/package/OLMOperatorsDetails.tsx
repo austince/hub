@@ -12,6 +12,7 @@ import License from './License';
 import Links from './Links';
 import Maintainers from './Maintainers';
 import styles from './OLMOperatorsDetails.module.css';
+import SecurityReport from './securityReport';
 
 interface Props {
   package: Package;
@@ -48,6 +49,12 @@ const OLMOperatorsDetails = (props: Props) => (
         </div>
       )}
     </div>
+
+    <SecurityReport
+      summary={props.package.securityReportSummary}
+      packageId={props.package.packageId}
+      version={props.package.version!}
+    />
 
     <CapabilityLevel capabilityLevel={props.package.capabilities} />
 

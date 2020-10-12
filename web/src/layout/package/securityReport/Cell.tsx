@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { FaCaretDown, FaCaretRight, FaLink } from 'react-icons/fa';
 
-import { Vulnerability } from '../../../types';
+import { Vulnerability, VulnerabilitySeverity } from '../../../types';
 import { SEVERITY_COLORS } from '../../../utils/data';
 import ExternalLink from '../../common/ExternalLink';
 import styles from './Cell.module.css';
@@ -12,7 +12,7 @@ interface Props {
   vulnerability: Vulnerability;
 }
 
-const VulnerabilityCell = (props: Props) => {
+const SecurityCell = (props: Props) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const getMainReference = (): JSX.Element | null => {
@@ -52,7 +52,9 @@ const VulnerabilityCell = (props: Props) => {
           <div className="d-flex flex-row align-items-center">
             <span
               className={`badge p-2 mr-2 ${styles.badge}`}
-              style={{ backgroundColor: SEVERITY_COLORS[props.vulnerability.Severity] }}
+              style={{
+                backgroundColor: SEVERITY_COLORS[props.vulnerability.Severity.toLowerCase() as VulnerabilitySeverity],
+              }}
             >
               {' '}
             </span>
@@ -97,4 +99,4 @@ const VulnerabilityCell = (props: Props) => {
   );
 };
 
-export default VulnerabilityCell;
+export default SecurityCell;
