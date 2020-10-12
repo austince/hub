@@ -30,7 +30,6 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("configuration setup failed")
 	}
-	cfg.SetDefault("tracker.concurrency", 1)
 	fields := map[string]interface{}{"cmd": "tracker"}
 	if err := util.SetupLogger(cfg, fields); err != nil {
 		log.Fatal().Err(err).Msg("logger setup failed")
@@ -78,6 +77,7 @@ func main() {
 	}
 
 	// Track registered repositories
+	cfg.SetDefault("tracker.concurrency", 1)
 	limiter := make(chan struct{}, cfg.GetInt("tracker.concurrency"))
 	var wg sync.WaitGroup
 	for _, r := range repos {

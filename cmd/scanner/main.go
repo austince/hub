@@ -28,7 +28,6 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("configuration setup failed")
 	}
-	cfg.SetDefault("scanner.concurrency", 1)
 	fields := map[string]interface{}{"cmd": "scanner"}
 	if err := util.SetupLogger(cfg, fields); err != nil {
 		log.Fatal().Err(err).Msg("logger setup failed")
@@ -60,6 +59,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("error getting snapshots to scan")
 	}
+	cfg.SetDefault("scanner.concurrency", 1)
 	limiter := make(chan struct{}, cfg.GetInt("scanner.concurrency"))
 	var wg sync.WaitGroup
 L:
