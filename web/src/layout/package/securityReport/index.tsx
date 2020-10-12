@@ -27,16 +27,22 @@ const SecurityReport = (props: Props) => {
 
       <div>
         <div className="d-flex flex-row align-items-center mb-2">
-          <div>
-            <small>
-              <span className="font-weight-bold mr-1">{total}</span> vulnerabilities found
-            </small>
-          </div>
-
           {total === 0 ? (
-            <FaCheck className="text-success ml-2" />
+            <>
+              <div>
+                <small>No vulnerabilities found</small>
+              </div>
+              <FaCheck className="text-success ml-2" />
+            </>
           ) : (
-            <FaExclamationTriangle className="text-warning ml-2" />
+            <>
+              <div>
+                <small>
+                  <span className="font-weight-bold mr-1">{total}</span> vulnerabilities found
+                </small>
+              </div>
+              <FaExclamationTriangle className="text-warning ml-2" />
+            </>
           )}
         </div>
 

@@ -4,6 +4,7 @@ import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
 import { SecurityTargetReport, Vulnerability } from '../../../types';
 import formatSecurityReport from '../../../utils/formatSecurityReport';
+import getTextBetweenParenthesis from '../../../utils/getTextBetweenParenthesis';
 import SecurityCell from './Cell';
 import styles from './Table.module.css';
 
@@ -18,6 +19,9 @@ const SecurityTable = (props: Props) => {
   const [expanded, setExpanded] = useState<boolean>(true);
 
   const getEmptyMessage = (): JSX.Element => <span className="font-italic text-muted">No vulnerabilities found</span>;
+  const getTargetName = (target: string): string => {
+    return getTextBetweenParenthesis(target) || target;
+  };
 
   return (
     <div className="my-1">
@@ -48,7 +52,7 @@ const SecurityTable = (props: Props) => {
                   <div className="ml-4 mb-4" key={`table_${item.Target}`}>
                     <div className={`${styles.tableTitle} font-weight-bold mr-2 mb-2 text-truncate`}>
                       <span className="text-uppercase text-muted mr-2">Target:</span>
-                      <span className="font-weight-bold">{item.Target}</span>
+                      <span className="font-weight-bold">{getTargetName(item.Target)}</span>
                     </div>
                     {visibleVulnerabilities.length === 0 ? (
                       <>{getEmptyMessage()}</>
@@ -81,9 +85,9 @@ const SecurityTable = (props: Props) => {
                             ))}
                             {sortedVulnerabilities.length > visibleVulnerabilities.length && (
                               <tr>
-                                <td colSpan={6} className="align-middle text-right">
+                                <td colSpan={6} className="align-middle text-right pt-3">
                                   <span className="text-muted font-italic">
-                                    Displaying {MAX_VULNERABILITY_NUMBER} from {sortedVulnerabilities.length}
+                                    Displaying only the first {MAX_VULNERABILITY_NUMBER} entries
                                   </span>
                                 </td>
                               </tr>
