@@ -23,7 +23,7 @@ dependencies:
     repository: https://kubernetes-charts.storage.googleapis.com/
     condition: postgresql.enabled
 annotations:
-  artifacthub.io/images:
+  artifacthub.io/images: |
     - name: db-migrator
       image: artifacthub/db-migrator:v0.7.0
     - name: hub
