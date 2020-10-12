@@ -45,38 +45,39 @@ type Maintainer struct {
 
 // Package represents a Kubernetes package.
 type Package struct {
-	PackageID         string                 `json:"package_id"`
-	Name              string                 `json:"name"`
-	NormalizedName    string                 `json:"normalized_name"`
-	LogoURL           string                 `json:"logo_url"`
-	LogoImageID       string                 `json:"logo_image_id"`
-	IsOperator        bool                   `json:"is_operator"`
-	Channels          []*Channel             `json:"channels"`
-	DefaultChannel    string                 `json:"default_channel"`
-	DisplayName       string                 `json:"display_name"`
-	Description       string                 `json:"description"`
-	Keywords          []string               `json:"keywords"`
-	HomeURL           string                 `json:"home_url"`
-	Readme            string                 `json:"readme"`
-	Install           string                 `json:"install"`
-	Links             []*Link                `json:"links"`
-	Capabilities      string                 `json:"capabilities"`
-	CRDs              []interface{}          `json:"crds"`
-	CRDsExamples      []interface{}          `json:"crds_examples"`
-	Data              map[string]interface{} `json:"data"`
-	Version           string                 `json:"version"`
-	AvailableVersions []*Version             `json:"available_versions"`
-	AppVersion        string                 `json:"app_version"`
-	Digest            string                 `json:"digest"`
-	Deprecated        bool                   `json:"deprecated"`
-	License           string                 `json:"license"`
-	Signed            bool                   `json:"signed"`
-	ContentURL        string                 `json:"content_url"`
-	ContainersImages  []*ContainerImage      `json:"containers_images"`
-	Provider          string                 `json:"provider"`
-	Maintainers       []*Maintainer          `json:"maintainers"`
-	Repository        *Repository            `json:"repository"`
-	CreatedAt         int64                  `json:"created_at,omitempty"`
+	PackageID             string                 `json:"package_id"`
+	Name                  string                 `json:"name"`
+	NormalizedName        string                 `json:"normalized_name"`
+	LogoURL               string                 `json:"logo_url"`
+	LogoImageID           string                 `json:"logo_image_id"`
+	IsOperator            bool                   `json:"is_operator"`
+	Channels              []*Channel             `json:"channels"`
+	DefaultChannel        string                 `json:"default_channel"`
+	DisplayName           string                 `json:"display_name"`
+	Description           string                 `json:"description"`
+	Keywords              []string               `json:"keywords"`
+	HomeURL               string                 `json:"home_url"`
+	Readme                string                 `json:"readme"`
+	Install               string                 `json:"install"`
+	Links                 []*Link                `json:"links"`
+	Capabilities          string                 `json:"capabilities"`
+	CRDs                  []interface{}          `json:"crds"`
+	CRDsExamples          []interface{}          `json:"crds_examples"`
+	SecurityReportSummary *SecurityReportSummary `json:"security_report_summary"`
+	Data                  map[string]interface{} `json:"data"`
+	Version               string                 `json:"version"`
+	AvailableVersions     []*Version             `json:"available_versions"`
+	AppVersion            string                 `json:"app_version"`
+	Digest                string                 `json:"digest"`
+	Deprecated            bool                   `json:"deprecated"`
+	License               string                 `json:"license"`
+	Signed                bool                   `json:"signed"`
+	ContentURL            string                 `json:"content_url"`
+	ContainersImages      []*ContainerImage      `json:"containers_images"`
+	Provider              string                 `json:"provider"`
+	Maintainers           []*Maintainer          `json:"maintainers"`
+	Repository            *Repository            `json:"repository"`
+	CreatedAt             int64                  `json:"created_at,omitempty"`
 }
 
 // PackageManager describes the methods a PackageManager implementation must
@@ -84,8 +85,9 @@ type Package struct {
 type PackageManager interface {
 	Get(ctx context.Context, input *GetPackageInput) (*Package, error)
 	GetJSON(ctx context.Context, input *GetPackageInput) ([]byte, error)
-	GetSnapshotsToScan(ctx context.Context) ([]*SnapshotToScan, error)
 	GetRandomJSON(ctx context.Context) ([]byte, error)
+	GetSnapshotSecurityReportJSON(ctx context.Context, pkgID, version string) ([]byte, error)
+	GetSnapshotsToScan(ctx context.Context) ([]*SnapshotToScan, error)
 	GetStarredByUserJSON(ctx context.Context) ([]byte, error)
 	GetStarsJSON(ctx context.Context, packageID string) ([]byte, error)
 	GetStatsJSON(ctx context.Context) ([]byte, error)

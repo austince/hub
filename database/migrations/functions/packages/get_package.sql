@@ -36,6 +36,7 @@ begin
         'crds', s.crds,
         'crds_examples', s.crds_examples,
         'capabilities', s.capabilities,
+        'security_report_summary', s.security_report_summary,
         'data', s.data,
         'version', s.version,
         'available_versions', (

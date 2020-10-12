@@ -253,6 +253,58 @@ func TestGetJSON(t *testing.T) {
 	})
 }
 
+func TestGetRandomJSON(t *testing.T) {
+	ctx := context.Background()
+
+	t.Run("database query succeeded", func(t *testing.T) {
+		db := &tests.DBMock{}
+		db.On("QueryRow", ctx, getRandomPkgsDBQ).Return([]byte("dataJSON"), nil)
+		m := NewManager(db)
+
+		dataJSON, err := m.GetRandomJSON(ctx)
+		assert.NoError(t, err)
+		assert.Equal(t, []byte("dataJSON"), dataJSON)
+		db.AssertExpectations(t)
+	})
+
+	t.Run("database error", func(t *testing.T) {
+		db := &tests.DBMock{}
+		db.On("QueryRow", ctx, getRandomPkgsDBQ).Return(nil, tests.ErrFakeDB)
+		m := NewManager(db)
+
+		dataJSON, err := m.GetRandomJSON(ctx)
+		assert.Equal(t, tests.ErrFakeDB, err)
+		assert.Nil(t, dataJSON)
+		db.AssertExpectations(t)
+	})
+}
+
+func TestGetSnapshotSecurityReportJSON(t *testing.T) {
+	ctx := context.Background()
+
+	t.Run("database query succeeded", func(t *testing.T) {
+		db := &tests.DBMock{}
+		db.On("QueryRow", ctx, getSnapshotSecurityReportDBQ, "pkg1", "1.0.0").Return([]byte("dataJSON"), nil)
+		m := NewManager(db)
+
+		dataJSON, err := m.GetSnapshotSecurityReportJSON(ctx, "pkg1", "1.0.0")
+		assert.NoError(t, err)
+		assert.Equal(t, []byte("dataJSON"), dataJSON)
+		db.AssertExpectations(t)
+	})
+
+	t.Run("database error", func(t *testing.T) {
+		db := &tests.DBMock{}
+		db.On("QueryRow", ctx, getSnapshotSecurityReportDBQ, "pkg1", "1.0.0").Return(nil, tests.ErrFakeDB)
+		m := NewManager(db)
+
+		dataJSON, err := m.GetSnapshotSecurityReportJSON(ctx, "pkg1", "1.0.0")
+		assert.Equal(t, tests.ErrFakeDB, err)
+		assert.Nil(t, dataJSON)
+		db.AssertExpectations(t)
+	})
+}
+
 func TestGetSnapshotsToScan(t *testing.T) {
 	ctx := context.Background()
 
@@ -293,32 +345,6 @@ func TestGetSnapshotsToScan(t *testing.T) {
 		require.Len(t, s[0].ContainersImages, 1)
 		assert.Equal(t, "image1", s[0].ContainersImages[0].Name)
 		assert.Equal(t, "organization/image:tag", s[0].ContainersImages[0].Image)
-		db.AssertExpectations(t)
-	})
-}
-
-func TestGetRandomJSON(t *testing.T) {
-	ctx := context.Background()
-
-	t.Run("database query succeeded", func(t *testing.T) {
-		db := &tests.DBMock{}
-		db.On("QueryRow", ctx, getRandomPkgsDBQ).Return([]byte("dataJSON"), nil)
-		m := NewManager(db)
-
-		dataJSON, err := m.GetRandomJSON(ctx)
-		assert.NoError(t, err)
-		assert.Equal(t, []byte("dataJSON"), dataJSON)
-		db.AssertExpectations(t)
-	})
-
-	t.Run("database error", func(t *testing.T) {
-		db := &tests.DBMock{}
-		db.On("QueryRow", ctx, getRandomPkgsDBQ).Return(nil, tests.ErrFakeDB)
-		m := NewManager(db)
-
-		dataJSON, err := m.GetRandomJSON(ctx)
-		assert.Equal(t, tests.ErrFakeDB, err)
-		assert.Nil(t, dataJSON)
 		db.AssertExpectations(t)
 	})
 }

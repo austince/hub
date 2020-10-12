@@ -84,6 +84,7 @@ insert into snapshot (
     crds,
     crds_examples,
     capabilities,
+    security_report_summary,
     data,
     deprecated,
     license,
@@ -106,6 +107,7 @@ insert into snapshot (
     '[{"key": "value"}]',
     '[{"key": "value"}]',
     'seamless upgrades',
+    '{"high": 2, "medium": 1}',
     '{"key": "value"}',
     true,
     'Apache-2.0',
@@ -225,6 +227,10 @@ select is(
             "key": "value"
         }],
         "capabilities": "seamless upgrades",
+        "security_report_summary": {
+            "high": 2,
+            "medium": 1
+        },
         "data": {
             "key": "value"
         },
@@ -321,6 +327,10 @@ select is(
             "key": "value"
         }],
         "capabilities": "seamless upgrades",
+        "security_report_summary": {
+            "high": 2,
+            "medium": 1
+        },
         "data": {
             "key": "value"
         },
@@ -414,6 +424,7 @@ select is(
         "crds": null,
         "crds_examples": null,
         "capabilities": "basic install",
+        "security_report_summary": null,
         "data": {
             "key": "value"
         },
@@ -485,6 +496,7 @@ select is(
         "crds": null,
         "crds_examples": null,
         "capabilities": null,
+        "security_report_summary": null,
         "data": {
             "key": "value"
         },
