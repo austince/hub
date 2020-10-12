@@ -30,6 +30,9 @@ spec:
                 value: "{{ .Values.db.port }}"
             command: ['sh', '-c', 'until pg_isready; do echo waiting for database; sleep 2; done;']
           containers:
+          - name: trivy
+            image: aquasec/trivy:0.11.0
+            command: ['server', '--listen', 'localhost:8081']
           - name: scanner
             image: {{ .Values.scanner.cronjob.image.repository }}:{{ .Values.imageTag }}
             imagePullPolicy: {{ .Values.pullPolicy }}
