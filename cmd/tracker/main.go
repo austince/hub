@@ -30,6 +30,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("configuration setup failed")
 	}
+	cfg.SetDefault("tracker.concurrency", 1)
 	fields := map[string]interface{}{"cmd": "tracker"}
 	if err := util.SetupLogger(cfg, fields); err != nil {
 		log.Fatal().Err(err).Msg("logger setup failed")

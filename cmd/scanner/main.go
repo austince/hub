@@ -28,6 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("configuration setup failed")
 	}
+	cfg.SetDefault("scanner.concurrency", 1)
 	fields := map[string]interface{}{"cmd": "scanner"}
 	if err := util.SetupLogger(cfg, fields); err != nil {
 		log.Fatal().Err(err).Msg("logger setup failed")
