@@ -35,6 +35,14 @@ The chart installs one `cronjob` in charge of launching periodically (every 30m)
 $ kubectl create job initial-tracker-job --from=cronjob/tracker
 ```
 
+## Packages security reports
+
+The chart installs another `cronjob` in charge of launching periodically (every hour) the scanner, which scans packages' images for security vulnerabilities, generating security reports for them. If you don't want to wait until the job is triggered by the cronjob, you can create one manually using the following command:
+
+```bash
+$ kubectl create job initial-scanner-job --from=cronjob/scanner
+```
+
 ## Uninstalling the Chart
 
 To uninstall the `hub` deployment run:

@@ -160,6 +160,12 @@ hub_tracker
 
 Depending on the speed of your Internet connection and machine, this may take a few minutes. The first time it runs a full indexing will be done. Subsequent runs will only process packages that have changed, so it'll be much faster. Once the tracker has completed, you should see packages in the web application. *Please note that some API responses can be cached for up to 5 minutes.*
 
+### Scanner
+
+There is another backend cmd called `scanner`, which is in charge of scanning the packages images for security vulnerabilities, generating security reports for them. On production deployments, it is usually run periodically using a `cronjob` on Kubernetes. Locally while developing, you can just run it as often as you need as any other CLI tool.
+
+The `scanner` is setup and run in the same way as the `tracker`. There is also an alias for it named `hub_scanner`.
+
 ### Backend tests
 
 You can use the command below to run all backend tests:
